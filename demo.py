@@ -213,7 +213,7 @@ def main():
 
         """
         st.write("confussion matrix of bagging classifier")
-        fig = plt.plot()
+        fig = plt.figure()
         sns.heatmap(bag_conf_matrix, annot=True)
         st.pyplot(fig)
         # st.write(bag_conf_matrix)
