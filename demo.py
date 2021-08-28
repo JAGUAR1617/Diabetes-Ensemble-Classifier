@@ -213,9 +213,9 @@ def main():
 
         """
         st.write("confussion matrix of bagging classifier")
-        plt.figure()
+        fig = plt.plot()
         sns.heatmap(bag_conf_matrix, annot=True)
-        st.pyplot()
+        st.pyplot(fig)
         # st.write(bag_conf_matrix)
         st.write(classification_report(y_test,bag_predicted))
         st.write("Accuracy of baggingclassifier:",bag_acc_score*100)
