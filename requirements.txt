@@ -41,3 +41,4 @@ tensorflow==2.4.0-rc0
 tensorflow-datasets==4.3.0
 tensorflow-metadata==1.1.0
 termcolor==1.1.0
+xgboost==1.4.2
