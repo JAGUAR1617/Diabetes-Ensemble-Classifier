@@ -245,7 +245,7 @@ def main():
        
         bag_false_positive_rate,bag_true_positive_rate,bag_threshold = roc_curve(y_test,bag_predicted)
         sns.set_style('whitegrid')
-        plt.figure(figsize=(10,5))
+        fig1 = plt.figure(figsize=(10,5))
         plt.title('Receiver Operating Characterstic Curve')
         plt.plot(bag_false_positive_rate,bag_true_positive_rate,label='bagging classifier')
         plt.plot([0,1],ls='--')
@@ -255,7 +255,7 @@ def main():
         plt.xlabel('False positive rate')
         plt.legend()
         plt.show()
-        st.pyplot()
+        st.pyplot(fig1)
 
     st.header("2. XGBoost Classifier")
 
@@ -301,9 +301,9 @@ def main():
     XGboost_cm = st.checkbox(' Accuracy and Confusion matrix of XGBoost')
     if XGboost_cm:
         st.write("confussion matrix of XGBoost")
-        plt.figure()
+        fig2 = plt.figure()
         sns.heatmap(xgb_conf_matrix, annot=True)
-        st.pyplot()
+        st.pyplot(fig2)
         st.write("Accuracy of XGBoost:",xgb_acc_score*100,'\n')
 
 
@@ -330,9 +330,9 @@ def main():
     hard_cm = st.checkbox('Accuracy and Confusion matrix for Hard Voting')
     if hard_cm:
         st.write("confussion matrix of hard voting")
-        plt.figure()
+        fig3 = plt.figure()
         sns.heatmap(hard_conf_matrix, annot=True)
-        st.pyplot()
+        st.pyplot(fig3)
         st.write('Accuracy of Hard Voting:', accuracy_score(y_test, hard_predictions))
         st.write('classification report of XGBoost: ', classification_report(y_test,hard_predictions)) 
 #################
@@ -371,9 +371,9 @@ def main():
     soft_cm = st.checkbox('Accuracy and Confusion matrix for soft Voting')
     if soft_cm:
         st.write("confussion matrix of soft voting")
-        plt.figure()
+        fig4 = plt.figure()
         sns.heatmap(soft_conf_matrix, annot=True)
-        st.pyplot()
+        st.pyplot(fig4)
         st.write('Accuracy of soft Voting:', accuracy_score(y_test, soft_predictions))
         st.write('classification report of soft voting: ', classification_report(y_test,soft_predictions)) 
 #################
@@ -390,14 +390,14 @@ def main():
        ' Diabetes pedigree function', ' Age (years)'], 'Importance': xgb.feature_importances_})
     colors = np.array(["blue","magenta","orange","purple","beige","brown","cyan","yellow"])
 
-    plt.figure(figsize=(10,4))
+    fig5 = plt.figure(figsize=(10,4))
     plt.title("barplot Represent feature importance ")
     plt.xlabel("importance ")
     plt.ylabel("features")
     plt.barh(imp_feature['Feature'],imp_feature['Importance'],color = colors)
     plt.show()
     st.write(imp_feature)
-    st.pyplot()
+    st.pyplot(fig5)
 
 
     boost_roc = st.checkbox('Boosting Receiver Operating Characterstic Curve')
@@ -406,7 +406,7 @@ def main():
         bag_false_positive_rate,bag_true_positive_rate,bag_threshold = roc_curve(y_test,bag_predicted)
 
         sns.set_style('whitegrid')
-        plt.figure(figsize=(10,5))
+        fig6 = plt.figure(figsize=(10,5))
         plt.title('Reciver Operating Characterstic Curve')
         plt.plot(xgb_false_positive_rate,xgb_true_positive_rate,label='Extreme Gradient Boost')
         plt.plot(bag_false_positive_rate,bag_true_positive_rate,label='bagging classifier')
@@ -419,7 +419,7 @@ def main():
         plt.xlabel('False positive rate')
         plt.legend()
         plt.show()
-        st.pyplot()
+        st.pyplot(fig6)
 
 
 
@@ -496,6 +496,7 @@ def main():
                     callbacks=callbacks_list,
                     verbose=0)  
 # Model accuracy
+    fig7 = plt.figure()
     plt.plot(history.history['accuracy'])
     plt.plot(history.history['val_accuracy'])
     plt.title('Model Accuracy')
@@ -503,11 +504,11 @@ def main():
     plt.xlabel('epoch')
     plt.legend(['train', 'test'])
     plt.show()
-    st.pyplot()
+    st.pyplot(fig7)
 
 
     # Model Losss
-    plt.figure()
+    fig8 = plt.figure()
     plt.plot(history.history['loss'])
     plt.plot(history.history['val_loss'])
     plt.title('Model Loss')
@@ -515,7 +516,7 @@ def main():
     plt.xlabel('epoch')
     plt.legend(['train', 'test'])
     plt.show()
-    st.pyplot()
+    st.pyplot(fig8)
 
     # print final accuracy
     scores = model.evaluate(X_test, y_test, verbose=0)
@@ -531,10 +532,11 @@ def main():
     comp["model"] = ["Bagging", "Boosting", "hard_voting", "soft_voting", "sequantial"]
     comp["accuracy"] = [bag_acc_score, xgb_acc_score, hard_accuracy, soft_accuracy, seq_accuracy ]
     st.dataframe(comp)
-
+    
+    fig9 = plt.figure()
     plt.barh(comp['model'],comp['accuracy'])
     plt.show()
-    st.pyplot()
+    st.pyplot(fig9)
 
     """
     This work adopted multiple classifiers for Pima diabetes dataset as discussed. 
