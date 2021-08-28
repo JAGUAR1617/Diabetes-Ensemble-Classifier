@@ -128,7 +128,6 @@ warnings.filterwarnings('ignore')
 from matplotlib import pyplot
 #EDA
 from collections import Counter
-import pandas_profiling as pp
 # data preprocessing
 from sklearn.preprocessing import StandardScaler
 # data splitting
