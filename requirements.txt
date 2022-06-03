@@ -37,7 +37,7 @@ scikit-learn==0.24.2
 seaborn==0.11.2
 smmap==4.0.0
 streamlit==0.87.0
-tensorflow==2.4.0-rc0
+tensorflow==2.4.0
 tensorflow-datasets==4.3.0
 tensorflow-metadata==1.1.0
 termcolor==1.1.0
