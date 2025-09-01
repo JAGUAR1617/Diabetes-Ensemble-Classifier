@@ -104,9 +104,9 @@ def main():
     # ---------------- BAGGING ----------------
     model1 = 'baggingclassifier'
     bag_clf = BaggingClassifier(
-        base_estimator=DecisionTreeClassifier(),
-        n_estimators=500, bootstrap=True, n_jobs=1, random_state=42
-    )
+    estimator=DecisionTreeClassifier(), 
+    n_estimators=500, bootstrap=True, n_jobs=1, random_state=42
+)
     bag_clf.fit(X_train, y_train)
     bag_predicted = bag_clf.predict(X_test)
     bag_conf_matrix = confusion_matrix(y_test, bag_predicted)
