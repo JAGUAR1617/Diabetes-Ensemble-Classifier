@@ -14,7 +14,7 @@ from tensorflow.keras.layers import Dense, Input
 # ---------------------------
 @st.cache_data
 def load_data():
-    df = pd.read_csv("Diabeted_Ensemble.csv")  # change path if needed
+    df = pd.read_csv("Diabeted_Ensemble.csv")  # update path if needed
     return df
 
 df = load_data()
@@ -32,7 +32,7 @@ possible_targets = [
     "Outcome", "outcome",
     "Class", "class",
     "Diabetes", "diabetes",
-    "Class variable"   # ✅ added for your dataset
+    "Class variable"   # ✅ for your dataset
 ]
 
 target_col = None
@@ -53,7 +53,7 @@ st.success(f"✅ Using target column: **{target_col}**")
 X = df.drop(target_col, axis=1)
 y = df[target_col]
 
-# Ensure binary labels are numeric (0/1)
+# Convert target to numeric (0/1) if text labels
 if y.dtype == "object":
     y = y.map({"tested_negative": 0, "tested_positive": 1}).astype(int)
 
@@ -75,7 +75,7 @@ y_test_nn = y_test.values if isinstance(y_test, pd.Series) else y_test
 # Build Sequential model
 # ---------------------------
 model = Sequential([
-    Input(shape=(X_train_nn.shape[1],)),  # Explicit Input layer
+    Input(shape=(X_train_nn.shape[1],)),  # ✅ Explicit Input layer
     Dense(32, activation="relu"),
     Dense(16, activation="relu"),
     Dense(8, activation="relu"),
