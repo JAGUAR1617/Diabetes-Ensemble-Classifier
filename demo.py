@@ -14,17 +14,48 @@ from tensorflow.keras.layers import Dense, Input
 # ---------------------------
 @st.cache_data
 def load_data():
-    df = pd.read_csv("Diabeted_Ensemble.csv")  # change to your dataset path
+    df = pd.read_csv("Diabeted_Ensemble.csv")  # change path if needed
     return df
 
 df = load_data()
-st.write("### Dataset Preview", df.head())
+
+st.write("### Dataset Preview")
+st.write(df.head())
+
+st.write("### Dataset Columns")
+st.write(df.columns.tolist())
+
+# ---------------------------
+# Detect target column
+# ---------------------------
+possible_targets = [
+    "Outcome", "outcome",
+    "Class", "class",
+    "Diabetes", "diabetes",
+    "Class variable"   # ✅ added for your dataset
+]
+
+target_col = None
+for col in possible_targets:
+    if col in df.columns:
+        target_col = col
+        break
+
+if target_col is None:
+    st.error("❌ Could not find target column. Please check dataset columns.")
+    st.stop()
+
+st.success(f"✅ Using target column: **{target_col}**")
 
 # ---------------------------
 # Split features and target
 # ---------------------------
-X = df.drop("Outcome", axis=1)
-y = df["Outcome"]
+X = df.drop(target_col, axis=1)
+y = df[target_col]
+
+# Ensure binary labels are numeric (0/1)
+if y.dtype == "object":
+    y = y.map({"tested_negative": 0, "tested_positive": 1}).astype(int)
 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
@@ -37,7 +68,6 @@ scaler = StandardScaler()
 X_train_nn = scaler.fit_transform(X_train)
 X_test_nn = scaler.transform(X_test)
 
-# Convert labels if pandas Series
 y_train_nn = y_train.values if isinstance(y_train, pd.Series) else y_train
 y_test_nn = y_test.values if isinstance(y_test, pd.Series) else y_test
 
@@ -45,7 +75,7 @@ y_test_nn = y_test.values if isinstance(y_test, pd.Series) else y_test
 # Build Sequential model
 # ---------------------------
 model = Sequential([
-    Input(shape=(X_train_nn.shape[1],)),  # ✅ Explicit Input layer
+    Input(shape=(X_train_nn.shape[1],)),  # Explicit Input layer
     Dense(32, activation="relu"),
     Dense(16, activation="relu"),
     Dense(8, activation="relu"),
