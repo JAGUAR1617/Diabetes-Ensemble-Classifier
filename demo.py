@@ -217,14 +217,15 @@ model = Sequential([
 
 model.compile(loss="binary_crossentropy", optimizer="adam", metrics=["accuracy"])
 
-ckpt_model = "pima-weights.best.hdf5"
+ckpt_model = "pima-weights.best.keras"   # <-- fixed extension
 checkpoint = ModelCheckpoint(
     filepath=ckpt_model,
-    monitor="val_accuracy",   # ✅ fixed
+    monitor="val_accuracy",
     verbose=1,
     save_best_only=True,
     mode="max",
 )
+
 
 history = model.fit(
     X_train_nn, y_train_nn,
